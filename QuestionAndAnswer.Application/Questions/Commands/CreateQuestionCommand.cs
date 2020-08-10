@@ -26,7 +26,7 @@ namespace QuestionAndAnswer.Application.Questions.Commands
             _dbContext = dbContext;
         }
         
-        public Task<QuestionResponce> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
+        public async Task<QuestionResponce> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
         {
             var question = new Question()
             {
@@ -38,7 +38,8 @@ namespace QuestionAndAnswer.Application.Questions.Commands
             };
             
             _dbContext.Add(question);
-            if (_dbContext.SaveChanges() == 1)
+            var added = await _dbContext.SaveChangesAsync() == 1;
+            if (added)
             {
                 var result = new QuestionResponce()
                 {
@@ -48,10 +49,10 @@ namespace QuestionAndAnswer.Application.Questions.Commands
                     DateCreated = question.Created.ToLongDateString(),
                     UserName = question.UserName,
                 };
-                return Task.FromResult(result);
+                return result;
             }
             else
-                return Task.FromResult<QuestionResponce>(null);
+                return null;
         }
     }
 }

@@ -26,16 +26,17 @@ namespace QuestionAndAnswer.Application.Questions.Commands
             _dbContext = dbContext;
         }
 
-        public Task<QuestionResponce> Handle(UpdateQuestionCommand request, CancellationToken cancellationToken)
+        public async Task<QuestionResponce> Handle(UpdateQuestionCommand request, CancellationToken cancellationToken)
         {
             var result = _dbContext.Questions.FirstOrDefault(q => q.Id == request.Id);
             if (result == null)
-                return Task.FromResult<QuestionResponce>(null);
+                return null;
 
             result.Title = request.Title;
             result.Content = request.Content;
 
-            if (_dbContext.SaveChanges() == 1)
+            var updated = await _dbContext.SaveChangesAsync() == 1;
+            if (updated)
             {
                 var responce = new QuestionResponce
                 {
@@ -45,10 +46,10 @@ namespace QuestionAndAnswer.Application.Questions.Commands
                     DateCreated = result.Created.ToLongDateString(),
                     UserName = result.UserName
                 };
-                return Task.FromResult<QuestionResponce>(responce);
+                return responce;
             }
             
-            return Task.FromResult<QuestionResponce>(null);
+            return null;
         }
     }
     

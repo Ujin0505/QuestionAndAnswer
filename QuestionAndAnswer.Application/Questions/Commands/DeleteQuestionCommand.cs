@@ -24,15 +24,15 @@ namespace QuestionAndAnswer.Application.Questions.Commands
             _dbContext = dbContext;
         }
         
-        public Task<bool> Handle(DeleteQuestionCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(DeleteQuestionCommand request, CancellationToken cancellationToken)
         {
             var result = _dbContext.Questions.FirstOrDefault(q => q.Id == request.Id);
             if (result == null)
-                return Task.FromResult(false);
+                return false;
 
             _dbContext.Remove(result);
-            bool isSaved = _dbContext.SaveChanges() == 1;
-            return Task.FromResult(isSaved);
+            bool isSaved = await _dbContext.SaveChangesAsync() == 1;
+            return isSaved;
         }
     }
 }

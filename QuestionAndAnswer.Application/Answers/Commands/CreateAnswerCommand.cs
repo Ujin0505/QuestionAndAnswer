@@ -27,7 +27,7 @@ namespace QuestionAndAnswer.Application.Answers.Commands
             _dbContext = dbContext;
         }
         
-        public Task<AnswerResponce> Handle(CreateAnswerCommand request, CancellationToken cancellationToken)
+        public async Task<AnswerResponce> Handle(CreateAnswerCommand request, CancellationToken cancellationToken)
         {
             var answer = new Answer()
             {
@@ -39,7 +39,8 @@ namespace QuestionAndAnswer.Application.Answers.Commands
             };
             
             _dbContext.Add(answer);
-            if (_dbContext.SaveChanges() == 1)
+            var added = await _dbContext.SaveChangesAsync();
+            if (added == 1)
             {
                 var result = new AnswerResponce()
                 {
@@ -49,10 +50,10 @@ namespace QuestionAndAnswer.Application.Answers.Commands
                     UserName = answer.UserName,
                     QuestionId = answer.QuestionId
                 };
-                return Task.FromResult(result);
+                return result;
             }
             else
-                return Task.FromResult<AnswerResponce>(null);
+                return null;
         }
     }
 }
