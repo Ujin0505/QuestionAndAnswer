@@ -47,20 +47,20 @@ namespace QuestionAndAnswer.Controllers
 
 
         [HttpPut("{id}")]
-        public IActionResult UpdateQuestion([FromBody]UpdateQuestionCommand command)
+        public async Task<IActionResult> UpdateQuestion([FromBody]UpdateQuestionCommand command)
         {
-            var result = _mediator.Send(command);
-            if (result.Result == null)
+            var result = await _mediator.Send(command);
+            if (result == null)
                 return NotFound();
 
             return NoContent();
         }
         
         [HttpDelete("{id}")]
-        public IActionResult DeleteQuestion(int id)
+        public async Task<IActionResult> DeleteQuestion(int id)
         {
-            var result = _mediator.Send(new DeleteQuestionCommand{Id = id});
-            if (result.Result == false)
+            var result = await _mediator.Send(new DeleteQuestionCommand{Id = id});
+            if (result == false)
                 return NotFound();
 
             return NoContent();

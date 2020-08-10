@@ -28,13 +28,13 @@ namespace QuestionAndAnswer.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateAnswer([FromBody]CreateAnswerCommand command)
+        public async Task<IActionResult> CreateAnswer([FromBody]CreateAnswerCommand command)
         {
-            var result = _mediator.Send(command);
-            if (result.Result == null)
+            var result = await _mediator.Send(command);
+            if (result == null)
                 return BadRequest("Can not create answer");
 
-            return CreatedAtAction(nameof(GetAnswer), new {id = result.Result.Id});
+            return CreatedAtAction(nameof(GetAnswer), new {id = result.Id});
         }
         
         
