@@ -42,7 +42,28 @@ namespace QuestionAndAnswer.Controllers
             if (result == null)
                 return BadRequest("Cannot create question");
 
-            return CreatedAtAction("GetQuestion", new {id = result.Id}, result);
+            return CreatedAtAction(nameof(GetQuestion), new {id = result.Id}, result);
+        }
+
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateQuestion([FromBody]UpdateQuestionCommand command)
+        {
+            var result = _mediator.Send(command);
+            if (result.Result == null)
+                return NotFound();
+
+            return NoContent();
+        }
+        
+        [HttpDelete("{id}")]
+        public IActionResult DeleteQuestion(int id)
+        {
+            var result = _mediator.Send(new DeleteQuestionCommand{Id = id});
+            if (result.Result == false)
+                return NotFound();
+
+            return NoContent();
         }
     }
 }

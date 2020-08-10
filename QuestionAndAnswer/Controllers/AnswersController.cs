@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using QuestionAndAnswer.Application.Answers.Commands;
 using QuestionAndAnswer.Application.Answers.Queries;
 
 namespace QuestionAndAnswer.Controllers
@@ -25,6 +26,17 @@ namespace QuestionAndAnswer.Controllers
 
             return Ok(result);
         }
+
+        [HttpPost]
+        public IActionResult CreateAnswer([FromBody]CreateAnswerCommand command)
+        {
+            var result = _mediator.Send(command);
+            if (result.Result == null)
+                return BadRequest("Can not create answer");
+
+            return CreatedAtAction(nameof(GetAnswer), new {id = result.Result.Id});
+        }
+        
         
     }
 }
