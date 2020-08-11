@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,7 +14,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using QuestionAndAnswer.Application.Common.Behaviours;
+using QuestionAndAnswer.Application.Questions.Commands;
 using QuestionAndAnswer.Application.Questions.Queries;
+using QuestionAndAnswer.Application.Questions.Validators;
 using QuestionAndAnswer.Persistence;
 
 namespace QuestionAndAnswer
@@ -40,6 +44,8 @@ namespace QuestionAndAnswer
             });
 
             services.AddMediatR(typeof(GetQuestionQueryHandler).Assembly);
+            services.AddValidatorsFromAssembly(typeof(CreateQuestionCommandValidator).Assembly);
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

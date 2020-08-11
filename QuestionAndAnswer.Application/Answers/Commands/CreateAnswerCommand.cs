@@ -13,8 +13,8 @@ namespace QuestionAndAnswer.Application.Answers.Commands
     {
         public int QuestionId { get; set; }
         public string Content { get; set; }
-        public int UserId { get; set; }
-        public string UserName { get; set; }
+        //public int UserId { get; set; }
+        //public string UserName { get; set; }
     }
     public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, AnswerResponce>
     {
@@ -33,8 +33,8 @@ namespace QuestionAndAnswer.Application.Answers.Commands
             {
                 QuestionId =  request.QuestionId,
                 Content = request.Content,
-                UserId = request.UserId,
-                UserName = request.UserName,
+                UserId = /*request.UserId*/ 1,
+                UserName = /*request.UserName*/ "user@qanda.ru",
                 Created = DateTime.Now
             };
             

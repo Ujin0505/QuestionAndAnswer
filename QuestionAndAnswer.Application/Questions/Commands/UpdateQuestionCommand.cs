@@ -8,14 +8,14 @@ using QuestionAndAnswer.Persistence;
 
 namespace QuestionAndAnswer.Application.Questions.Commands
 {
-    public class UpdateQuestionCommand: IRequest<QuestionResponce>
+    public class UpdateQuestionCommand: IRequest<bool>
     {
         public int Id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
     }
 
-    public class UpdateQuestionCommandHandler : IRequestHandler<UpdateQuestionCommand, QuestionResponce>
+    public class UpdateQuestionCommandHandler : IRequestHandler<UpdateQuestionCommand, bool>
     {
         private readonly IMediator _mediator;
         private readonly ApplicationDbContext _dbContext;
@@ -26,30 +26,17 @@ namespace QuestionAndAnswer.Application.Questions.Commands
             _dbContext = dbContext;
         }
 
-        public async Task<QuestionResponce> Handle(UpdateQuestionCommand request, CancellationToken cancellationToken)
+        public async Task<bool> Handle(UpdateQuestionCommand request, CancellationToken cancellationToken)
         {
             var result = _dbContext.Questions.FirstOrDefault(q => q.Id == request.Id);
             if (result == null)
-                return null;
+                return false;
 
             result.Title = request.Title;
             result.Content = request.Content;
 
             var updated = await _dbContext.SaveChangesAsync() == 1;
-            if (updated)
-            {
-                var responce = new QuestionResponce
-                {
-                    Id = result.Id,
-                    Title = result.Title,
-                    Content = result.Content,
-                    DateCreated = result.Created.ToLongDateString(),
-                    UserName = result.UserName
-                };
-                return responce;
-            }
-            
-            return null;
+            return updated;
         }
     }
     

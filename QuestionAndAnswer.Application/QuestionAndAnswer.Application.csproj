@@ -5,6 +5,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <PackageReference Include="FluentValidation.AspNetCore" Version="9.1.1" />
       <PackageReference Include="MediatR" Version="8.1.0" />
     </ItemGroup>
 

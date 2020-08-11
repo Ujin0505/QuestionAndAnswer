@@ -50,8 +50,8 @@ namespace QuestionAndAnswer.Controllers
         public async Task<IActionResult> UpdateQuestion([FromBody]UpdateQuestionCommand command)
         {
             var result = await _mediator.Send(command);
-            if (result == null)
-                return NotFound();
+            if (result == false)
+                return BadRequest("Cannot update question");
 
             return NoContent();
         }

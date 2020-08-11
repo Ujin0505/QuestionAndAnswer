@@ -12,9 +12,8 @@ namespace QuestionAndAnswer
     // TODO list:
     // 1. Версионность (Nick Chapsas)
     // 2. Mediatr + EventSourcing (INotification) (https://medium.com/@ducmeit/net-core-using-cqrs-pattern-with-mediatr-part-2-cc55763e83f0)
-    // 3. Mediatr + Validation
+    // 3. AutoMapper
     // 4. SSL certificate
-    // 5. Create/Delete/Update return value + лучше делать async или нет ???
     
     public class Program
     {

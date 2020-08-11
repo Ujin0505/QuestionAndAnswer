@@ -12,8 +12,8 @@ namespace QuestionAndAnswer.Application.Questions.Commands
     {
         public string Title { get; set; }
         public string Content { get; set; }
-        public int UserId { get; set; }
-        public string UserName { get; set; }
+        //public int UserId { get; set; }
+        //public string UserName { get; set; }
     }
     public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionCommand, QuestionResponce>
     {
@@ -32,8 +32,8 @@ namespace QuestionAndAnswer.Application.Questions.Commands
             {
                 Title = request.Title,
                 Content = request.Content,
-                UserId = request.UserId,
-                UserName = request.UserName,
+                UserId = /*request.UserId*/ 1,
+                UserName = "user@qanda.ru",
                 Created = DateTime.Now
             };
             
