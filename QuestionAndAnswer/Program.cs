@@ -11,9 +11,9 @@ namespace QuestionAndAnswer
 {
     // TODO list:
     // 1. Версионность (Nick Chapsas)
-    // 2. Mediatr + EventSourcing (INotification) (https://medium.com/@ducmeit/net-core-using-cqrs-pattern-with-mediatr-part-2-cc55763e83f0)
-    // 3. AutoMapper
-    // 4. SSL certificate
+    // 2. Paging, Filtering 
+    // 3. SoftDeleting
+    // 4. Async+ await + Task
     
     public class Program
     {

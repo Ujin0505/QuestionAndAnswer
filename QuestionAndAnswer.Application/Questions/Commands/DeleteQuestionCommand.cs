@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using QuestionAndAnswer.Application.Common.Handlers;
 using QuestionAndAnswer.Application.Models;
 using QuestionAndAnswer.Data.Entities;
 using QuestionAndAnswer.Persistence;
@@ -32,6 +33,9 @@ namespace QuestionAndAnswer.Application.Questions.Commands
 
             _dbContext.Remove(result);
             bool isSaved = await _dbContext.SaveChangesAsync() == 1;
+            
+            await _mediator.Publish(new ChangeQuestionNotification(){QuestionId =  result.Id}, cancellationToken);
+            
             return isSaved;
         }
     }

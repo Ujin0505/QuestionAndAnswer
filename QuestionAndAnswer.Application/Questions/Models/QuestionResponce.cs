@@ -1,6 +1,8 @@
-﻿namespace QuestionAndAnswer.Application.Models
+﻿using MediatR;
+
+namespace QuestionAndAnswer.Application.Models
 {
-    public class QuestionResponce
+    public class QuestionResponce: INotification
     {
         public int Id { get; set; }
         public string Title { get; set; }

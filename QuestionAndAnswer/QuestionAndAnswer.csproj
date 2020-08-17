@@ -6,6 +6,7 @@
     </PropertyGroup>
     
     <ItemGroup>
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.0.1" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.1.1" />
         <PackageReference Include="MediatR" Version="8.1.0" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
@@ -16,6 +17,7 @@
     
     <ItemGroup>
       <ProjectReference Include="..\QuestionAndAnswer.Application\QuestionAndAnswer.Application.csproj" />
+      <ProjectReference Include="..\QuestionAndAnswer.Infrastracture\QuestionAndAnswer.Infrastracture.csproj" />
       <ProjectReference Include="..\QuestionAndAnswer.Persistence\QuestionAndAnswer.Persistence.csproj" />
     </ItemGroup>
 

@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
+using QuestionAndAnswer.Application.Common.Interfaces;
 using QuestionAndAnswer.Application.Models;
 using QuestionAndAnswer.Data.Entities;
 using QuestionAndAnswer.Persistence;
@@ -17,13 +18,13 @@ namespace QuestionAndAnswer.Application.Questions.Commands
     }
     public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionCommand, QuestionResponce>
     {
-        private readonly IMediator _mediator;
         private readonly ApplicationDbContext _dbContext;
+        private readonly IMediator _mediator;
 
-        public CreateQuestionCommandHandler(IMediator mediator, ApplicationDbContext dbContext)
+        public CreateQuestionCommandHandler(ApplicationDbContext dbContext, IMediator mediator)
         {
-            _mediator = mediator;
             _dbContext = dbContext;
+            _mediator = mediator;
         }
         
         public async Task<QuestionResponce> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
@@ -49,6 +50,9 @@ namespace QuestionAndAnswer.Application.Questions.Commands
                     DateCreated = question.Created.ToLongDateString(),
                     UserName = question.UserName,
                 };
+
+                await _mediator.Publish(result, cancellationToken);
+                
                 return result;
             }
             else

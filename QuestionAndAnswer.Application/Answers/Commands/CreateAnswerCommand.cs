@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using QuestionAndAnswer.Application.Answers.Models;
+using QuestionAndAnswer.Application.Common.Handlers;
 using QuestionAndAnswer.Application.Models;
 using QuestionAndAnswer.Data.Entities;
 using QuestionAndAnswer.Persistence;
@@ -50,10 +51,16 @@ namespace QuestionAndAnswer.Application.Answers.Commands
                     UserName = answer.UserName,
                     QuestionId = answer.QuestionId
                 };
+
+                await _mediator.Publish(new CreateAnswerNotification() { QuestionId = result.QuestionId}, cancellationToken);
                 return result;
             }
             else
                 return null;
+            
+            
         }
     }
+
+    
 }

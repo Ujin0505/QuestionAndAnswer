@@ -1,4 +1,6 @@
-﻿namespace QuestionAndAnswer.Application.Answers.Models
+﻿using MediatR;
+
+namespace QuestionAndAnswer.Application.Answers.Models
 {
     public class AnswerResponce
     {

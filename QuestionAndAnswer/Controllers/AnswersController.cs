@@ -7,7 +7,7 @@ using QuestionAndAnswer.Application.Answers.Queries;
 namespace QuestionAndAnswer.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/questions/")]
     public class AnswersController: ControllerBase
     {
         private readonly IMediator _mediator;
@@ -16,8 +16,8 @@ namespace QuestionAndAnswer.Controllers
         {
             _mediator = mediator;
         }
-
-        [HttpGet("{id}")]
+        
+        [HttpGet("{questionId}/answers/{id}")]
         public async Task<IActionResult> GetAnswer(int id)
         {
             var result = await _mediator.Send(new GetAnswerQuery(id));
@@ -27,16 +27,14 @@ namespace QuestionAndAnswer.Controllers
             return Ok(result);
         }
 
-        [HttpPost]
+        [HttpPost("{questionId}/answers")]
         public async Task<IActionResult> CreateAnswer([FromBody]CreateAnswerCommand command)
         {
             var result = await _mediator.Send(command);
             if (result == null)
                 return BadRequest("Can not create answer");
 
-            return CreatedAtAction(nameof(GetAnswer), new {id = result.Id});
+            return CreatedAtAction(nameof(GetAnswer), new {questionId = result.QuestionId, id = result.Id}, result);
         }
-        
-        
     }
 }
