@@ -1,8 +1,6 @@
 ﻿using System.Threading.Tasks;
-using MediatR;
 using Microsoft.AspNetCore.SignalR;
 using QuestionAndAnswer.Application.Common.Interfaces;
-using QuestionAndAnswer.Application.Models;
 using QuestionAndAnswer.Infrastracture.Hubs;
 
 namespace QuestionAndAnswer.Infrastracture.Services

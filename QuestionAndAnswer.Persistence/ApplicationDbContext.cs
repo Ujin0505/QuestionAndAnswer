@@ -1,6 +1,7 @@
 ﻿using System.Collections.Immutable;
 using Microsoft.EntityFrameworkCore;
 using QuestionAndAnswer.Data.Entities;
+using QuestionAndAnswer.Persistence.Configurations;
 
 namespace QuestionAndAnswer.Persistence
 {
@@ -23,13 +24,15 @@ namespace QuestionAndAnswer.Persistence
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            BuildQuestion(modelBuilder);
-            BuildAnswer(modelBuilder);
+            //BuildQuestion(modelBuilder);
+            //BuildAnswer(modelBuilder);
+            modelBuilder.ApplyConfiguration(new QuestionConfig());
+            modelBuilder.ApplyConfiguration(new AnswerConfig());
 
             DataSeeder.Seed(modelBuilder);
         }
 
-        private void BuildQuestion(ModelBuilder builder)
+        /*private void BuildQuestion(ModelBuilder builder)
         {
             builder.Entity<Question>(question =>
             {
@@ -41,14 +44,9 @@ namespace QuestionAndAnswer.Persistence
                 question.Property(q => q.Created).IsRequired();
                 question.HasMany(q => q.Answers)
                     .WithOne(a => a.Question);
-
-                /*question.HasOne(q => q.Answer)
-                    .WithOne(a => a.Question)
-                    .HasForeignKey<Answer>(a => a.QuestionId);*/
             });
-        }
-        
-        private void BuildAnswer(ModelBuilder builder)
+        }*/
+        /*private void BuildAnswer(ModelBuilder builder)
         {
             builder.Entity<Answer>(answer =>
             {
@@ -58,13 +56,7 @@ namespace QuestionAndAnswer.Persistence
                 answer.Property(a => a.UserName).IsRequired().HasMaxLength(150);
                 answer.Property(a => a.Created).IsRequired();
             });
-        }
-        
-        
-        
-        
-        
-        
+        }*/
     }
     
     

@@ -33,7 +33,7 @@ namespace QuestionAndAnswer.Persistence
                     Title = "Why should I learn TypeScript?",
                     Content =
                         "TypeScript seems to be getting popular so I wondered whether it is worth my time learning it? What benefits does it give over JavaScript?",
-                    UserId = 1,
+                    UserId = "1",
                     UserName = "bob.test@test.com",
                     Created = new DateTime(2019, 5, 18, 14, 32, 0)
                 },
@@ -43,7 +43,7 @@ namespace QuestionAndAnswer.Persistence
                     Title = "Which state management tool should I use?",
                     Content =
                         "There seem to be a fair few state management tools around for React - React, Unstated, ... Which one should I use?",
-                    UserId = 2,
+                    UserId = "2",
                     UserName = "jane.test@test.com",
                     Created = new DateTime(2019, 5, 18, 14, 48, 0)
                 }
@@ -60,7 +60,7 @@ namespace QuestionAndAnswer.Persistence
                     QuestionId = -1,
                     Content =
                         "To catch problems earlier speeding up your developments",
-                    UserId = 2,
+                    UserId = "2",
                     UserName = "jane.test@test.com",
                     Created = new DateTime(2019, 5, 18, 14, 50, 0)
                 },
@@ -70,7 +70,7 @@ namespace QuestionAndAnswer.Persistence
                     QuestionId = -1,
                     Content =
                         "So, that you can use the JavaScript features of tomorrow, today",
-                    UserId = 3,
+                    UserId = "3",
                     UserName = "fred.test@test.com",
                     Created = new DateTime(2019, 5, 18, 16, 48, 0)
                 }

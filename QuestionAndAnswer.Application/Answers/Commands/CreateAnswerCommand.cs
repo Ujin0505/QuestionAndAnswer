@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using QuestionAndAnswer.Application.Answers.Models;
 using QuestionAndAnswer.Application.Common.Handlers;
+using QuestionAndAnswer.Application.Common.Interfaces;
 using QuestionAndAnswer.Application.Models;
 using QuestionAndAnswer.Data.Entities;
 using QuestionAndAnswer.Persistence;
@@ -21,11 +22,13 @@ namespace QuestionAndAnswer.Application.Answers.Commands
     {
         private readonly IMediator _mediator;
         private readonly ApplicationDbContext _dbContext;
+        private readonly ICurrentUserService _currentUserService;
 
-        public CreateAnswerCommandHandler(IMediator mediator, ApplicationDbContext dbContext)
+        public CreateAnswerCommandHandler(IMediator mediator, ApplicationDbContext dbContext, ICurrentUserService currentUserService)
         {
             _mediator = mediator;
             _dbContext = dbContext;
+            _currentUserService = currentUserService;
         }
         
         public async Task<AnswerResponce> Handle(CreateAnswerCommand request, CancellationToken cancellationToken)
@@ -34,8 +37,8 @@ namespace QuestionAndAnswer.Application.Answers.Commands
             {
                 QuestionId =  request.QuestionId,
                 Content = request.Content,
-                UserId = /*request.UserId*/ 1,
-                UserName = /*request.UserName*/ "user@qanda.ru",
+                UserId =  _currentUserService.UserId,
+                UserName = await _currentUserService.GetName(),
                 Created = DateTime.Now
             };
             

@@ -11,9 +11,12 @@ namespace QuestionAndAnswer
 {
     // TODO list:
     // 1. Версионность (Nick Chapsas)
-    // 2. Paging, Filtering 
-    // 3. SoftDeleting
+    // 2. Paging, Filtering
+    // 3. Logging EF queries
     // 4. Async+ await + Task
+    // 5. OIDC
+    // 6. CORS
+    
     
     public class Program
     {

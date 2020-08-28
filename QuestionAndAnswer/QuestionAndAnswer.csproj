@@ -10,9 +10,13 @@
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="9.1.1" />
         <PackageReference Include="MediatR" Version="8.1.0" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.7" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="3.1.6" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.6" />
         <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="5.5.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="5.5.1" />
     </ItemGroup>
     
     <ItemGroup>

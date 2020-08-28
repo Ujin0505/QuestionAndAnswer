@@ -1,7 +1,9 @@
-﻿using System.Threading;
+﻿using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using QuestionAndAnswer.Application.Answers.Models;
 using QuestionAndAnswer.Application.Common.Handlers;
 using QuestionAndAnswer.Application.Common.Interfaces;
 using QuestionAndAnswer.Application.Models;
@@ -21,31 +23,45 @@ namespace QuestionAndAnswer.Application.Questions.Queries
     {
         private readonly IMediator _mediator;
         private readonly ApplicationDbContext _dbContext;
+        private readonly IDateTimeService _dateTimeService;
 
-        public GetQuestionQueryHandler(IMediator mediator, ApplicationDbContext dbContext)
+        public GetQuestionQueryHandler(IMediator mediator, ApplicationDbContext dbContext, IDateTimeService _dateTimeService)
         {
             _mediator = mediator;
             _dbContext = dbContext;
+            this._dateTimeService = _dateTimeService;
         }
         
         public async Task<QuestionResponce> Handle(GetQuestionQuery request, CancellationToken cancellationToken)
         {
-            var result = await _dbContext.Questions.AsNoTracking().FirstOrDefaultAsync(q => q.Id == request.Id,cancellationToken);
+            var result = await _dbContext.Questions
+                .Include(q => q.Answers)
+                .AsNoTracking()
+                .FirstOrDefaultAsync(q => q.Id == request.Id,cancellationToken);
+            
             if (result == null)
                 return null;
             
-            var responce = new QuestionResponce()
+            var response = new QuestionResponce()
             {
                 Id = result.Id,
                 Title = result.Title,
                 Content = result.Content,
                 UserName = result.UserName,
-                DateCreated = result.Created.ToLongDateString()
+                DateCreated = _dateTimeService.ToResponceFormat( result.Created)
+                /*Answers = result.Answers.Select( a =>  new AnswerResponce()
+                {
+                    Id = a.Id,
+                    Content =  a.Content,
+                    Created  = a.Created.ToString("yyyy-MM-ddTHH:mm:ss"),
+                    QuestionId = a.QuestionId,
+                    UserName = a.UserName
+                })*/
             };
 
-            await _mediator.Publish(new GetQuestionNotification() {QuestionId = responce.Id}, cancellationToken);
+            await _mediator.Publish(new GetQuestionNotification() {QuestionId = response.Id}, cancellationToken);
             
-            return responce;
+            return response;
         }
     }
 }

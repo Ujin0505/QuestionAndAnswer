@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuestionAndAnswer.Application.Answers.Commands;
 using QuestionAndAnswer.Application.Answers.Queries;
@@ -27,6 +28,8 @@ namespace QuestionAndAnswer.Controllers
             return Ok(result);
         }
 
+        
+        [Authorize]
         [HttpPost("{questionId}/answers")]
         public async Task<IActionResult> CreateAnswer([FromBody]CreateAnswerCommand command)
         {

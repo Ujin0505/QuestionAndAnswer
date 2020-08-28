@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using QuestionAndAnswer.Application.Common.Interfaces;
 using QuestionAndAnswer.Application.Models;
@@ -24,6 +25,7 @@ namespace QuestionAndAnswer.Controllers
             _questionMemoryCacheService = questionMemoryCacheService;
         }
 
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetQuestion(int id)
         {
@@ -38,11 +40,12 @@ namespace QuestionAndAnswer.Controllers
         }
         
         [HttpGet]
-        public async Task<IEnumerable<QuestionResponce>> GetQuestions(int id)
+        public async Task<IEnumerable<QuestionResponce>> GetQuestions(string search)
         {
-            return await _mediator.Send(new GetQuestionsQuery());
+            return await _mediator.Send(new GetQuestionsQuery() {Search = search});
         }
 
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateQuestion([FromBody] CreateQuestionCommand command)
         {
@@ -56,6 +59,7 @@ namespace QuestionAndAnswer.Controllers
         }
 
 
+        [Authorize(Policy = "Author")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateQuestion([FromBody]UpdateQuestionCommand command)
         {
@@ -68,6 +72,7 @@ namespace QuestionAndAnswer.Controllers
             return NoContent();
         }
         
+        [Authorize(Policy = "Author")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteQuestion(int id)
         {
