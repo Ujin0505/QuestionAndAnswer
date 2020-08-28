@@ -25,11 +25,11 @@ namespace QuestionAndAnswer.Application.Questions.Queries
         private readonly ApplicationDbContext _dbContext;
         private readonly IDateTimeService _dateTimeService;
 
-        public GetQuestionQueryHandler(IMediator mediator, ApplicationDbContext dbContext, IDateTimeService _dateTimeService)
+        public GetQuestionQueryHandler(IMediator mediator, ApplicationDbContext dbContext, IDateTimeService dateTimeService)
         {
             _mediator = mediator;
             _dbContext = dbContext;
-            this._dateTimeService = _dateTimeService;
+            _dateTimeService = dateTimeService;
         }
         
         public async Task<QuestionResponce> Handle(GetQuestionQuery request, CancellationToken cancellationToken)
@@ -48,15 +48,15 @@ namespace QuestionAndAnswer.Application.Questions.Queries
                 Title = result.Title,
                 Content = result.Content,
                 UserName = result.UserName,
-                DateCreated = _dateTimeService.ToResponceFormat( result.Created)
-                /*Answers = result.Answers.Select( a =>  new AnswerResponce()
+                DateCreated = _dateTimeService.ToResponceFormat( result.Created),
+                Answers = result.Answers.Select( a =>  new AnswerResponce()
                 {
                     Id = a.Id,
                     Content =  a.Content,
-                    Created  = a.Created.ToString("yyyy-MM-ddTHH:mm:ss"),
+                    Created  = _dateTimeService.ToResponceFormat(a.Created),
                     QuestionId = a.QuestionId,
                     UserName = a.UserName
-                })*/
+                })
             };
 
             await _mediator.Publish(new GetQuestionNotification() {QuestionId = response.Id}, cancellationToken);
