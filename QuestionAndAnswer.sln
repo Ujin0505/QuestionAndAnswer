@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionAndAnswer.Applicati
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionAndAnswer.Infrastracture", "QuestionAndAnswer.Infrastracture\QuestionAndAnswer.Infrastracture.csproj", "{5494F034-0AB0-48EE-BE1D-C8901AF1AC4E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionAndAnswer.Tests.Integration", "QuestionAndAnswer.Tests.Integration\QuestionAndAnswer.Tests.Integration.csproj", "{0E7910F0-94B4-4BAD-8AAC-9DD7811C1190}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,5 +38,9 @@ Global
 		{5494F034-0AB0-48EE-BE1D-C8901AF1AC4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5494F034-0AB0-48EE-BE1D-C8901AF1AC4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5494F034-0AB0-48EE-BE1D-C8901AF1AC4E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E7910F0-94B4-4BAD-8AAC-9DD7811C1190}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E7910F0-94B4-4BAD-8AAC-9DD7811C1190}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E7910F0-94B4-4BAD-8AAC-9DD7811C1190}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E7910F0-94B4-4BAD-8AAC-9DD7811C1190}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

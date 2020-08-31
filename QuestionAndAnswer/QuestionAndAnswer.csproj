@@ -24,6 +24,19 @@
       <ProjectReference Include="..\QuestionAndAnswer.Infrastracture\QuestionAndAnswer.Infrastracture.csproj" />
       <ProjectReference Include="..\QuestionAndAnswer.Persistence\QuestionAndAnswer.Persistence.csproj" />
     </ItemGroup>
+    
+    <ItemGroup>
+      <Content Update="appsettings.Production.json">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="appsettings.Staging.json">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+    </ItemGroup>
 
 
 </Project>

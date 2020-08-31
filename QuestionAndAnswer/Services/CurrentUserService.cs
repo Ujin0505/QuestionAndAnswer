@@ -42,7 +42,6 @@ namespace QuestionAndAnswer.Services
                 var user =  JsonSerializer.Deserialize<User>(data,
                     new JsonSerializerOptions() {PropertyNameCaseInsensitive = true});
                 return user.Name;
-                return "test";
             }
             return String.Empty;
         }

@@ -10,7 +10,7 @@ using ValidationException = FluentValidation.ValidationException;
 
 namespace QuestionAndAnswer.Application.Common.Behaviours
 {
-    public class ValidationBehaviour<TRequest, TResponce>: IPipelineBehavior<TRequest, TResponce> where TRequest: IRequest<TResponce>
+    public class ValidationBehaviour<TRequest, TResponse>: IPipelineBehavior<TRequest, TResponse> where TRequest: IRequest<TResponse>
     {
         private IEnumerable<IValidator<TRequest>> _validators;
 
@@ -19,7 +19,7 @@ namespace QuestionAndAnswer.Application.Common.Behaviours
             _validators = validators;
         }
         
-        public async Task<TResponce> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponce> next)
+        public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
             if (_validators.Any())
             {

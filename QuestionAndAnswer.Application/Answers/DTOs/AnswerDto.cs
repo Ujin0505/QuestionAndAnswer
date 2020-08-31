@@ -2,7 +2,7 @@
 
 namespace QuestionAndAnswer.Application.Answers.Models
 {
-    public class AnswerResponce
+    public class AnswerDto
     {
         public int Id { get; set; }
         public string Content { get; set; }

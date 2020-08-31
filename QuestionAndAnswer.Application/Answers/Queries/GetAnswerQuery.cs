@@ -7,7 +7,7 @@ using QuestionAndAnswer.Persistence;
 
 namespace QuestionAndAnswer.Application.Answers.Queries
 {
-    public class GetAnswerQuery: IRequest<AnswerResponce>
+    public class GetAnswerQuery: IRequest<AnswerDto>
     {
         public int Id { get; }
 
@@ -17,7 +17,7 @@ namespace QuestionAndAnswer.Application.Answers.Queries
         }
     }
 
-    public class GetAnswerQueryHandler : IRequestHandler<GetAnswerQuery, AnswerResponce>
+    public class GetAnswerQueryHandler : IRequestHandler<GetAnswerQuery, AnswerDto>
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -26,13 +26,13 @@ namespace QuestionAndAnswer.Application.Answers.Queries
             _dbContext = dbContext;
         }
         
-        public async Task<AnswerResponce> Handle(GetAnswerQuery request, CancellationToken cancellationToken)
+        public async Task<AnswerDto> Handle(GetAnswerQuery request, CancellationToken cancellationToken)
         {
             var result = await _dbContext.Answers.FirstOrDefaultAsync(a => a.Id == request.Id);
             if (result == null)
                 return null;
 
-            return new AnswerResponce()
+            return new AnswerDto()
             {
                 Id =  result.Id,
                 QuestionId =  result.QuestionId,

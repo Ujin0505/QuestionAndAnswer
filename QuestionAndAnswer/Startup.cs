@@ -63,10 +63,9 @@ namespace QuestionAndAnswer
 
             //mediatr
             services.AddMediatR(typeof(GetQuestionQueryHandler).Assembly);
-            
-            //validation
             services.AddValidatorsFromAssembly(typeof(CreateQuestionCommandValidator).Assembly);
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+            
             
             //signalr
             services.AddSignalR();
@@ -117,8 +116,8 @@ namespace QuestionAndAnswer
                 builder
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .WithOrigins("http://localhost:3000")
-                    .AllowCredentials();
+                    .AllowCredentials()
+                    .WithOrigins(Configuration["Frontend"]);
             }));
 
             //automapper

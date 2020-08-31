@@ -11,7 +11,7 @@ using QuestionAndAnswer.Persistence;
 
 namespace QuestionAndAnswer.Application.Questions.Queries
 {
-    public class GetQuestionQuery: IRequest<QuestionResponce>
+    public class GetQuestionQuery: IRequest<QuestionDto>
     {
         public int Id { get; }
         public GetQuestionQuery(int id)
@@ -19,7 +19,7 @@ namespace QuestionAndAnswer.Application.Questions.Queries
             Id = id;
         }
     }
-    public class GetQuestionQueryHandler: IRequestHandler<GetQuestionQuery, QuestionResponce>
+    public class GetQuestionQueryHandler: IRequestHandler<GetQuestionQuery, QuestionDto>
     {
         private readonly IMediator _mediator;
         private readonly ApplicationDbContext _dbContext;
@@ -32,7 +32,7 @@ namespace QuestionAndAnswer.Application.Questions.Queries
             _dateTimeService = dateTimeService;
         }
         
-        public async Task<QuestionResponce> Handle(GetQuestionQuery request, CancellationToken cancellationToken)
+        public async Task<QuestionDto> Handle(GetQuestionQuery request, CancellationToken cancellationToken)
         {
             var result = await _dbContext.Questions
                 .Include(q => q.Answers)
@@ -42,14 +42,14 @@ namespace QuestionAndAnswer.Application.Questions.Queries
             if (result == null)
                 return null;
             
-            var response = new QuestionResponce()
+            var response = new QuestionDto()
             {
                 Id = result.Id,
                 Title = result.Title,
                 Content = result.Content,
                 UserName = result.UserName,
                 DateCreated = _dateTimeService.ToResponceFormat( result.Created),
-                Answers = result.Answers.Select( a =>  new AnswerResponce()
+                Answers = result.Answers.Select( a =>  new AnswerDto()
                 {
                     Id = a.Id,
                     Content =  a.Content,

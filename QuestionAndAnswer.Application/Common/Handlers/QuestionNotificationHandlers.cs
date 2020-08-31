@@ -6,9 +6,9 @@ using QuestionAndAnswer.Application.Models;
 
 namespace QuestionAndAnswer.Application.Common.Handlers
 {
-    public class QuestionNotificationHandlers: INotificationHandler<QuestionResponce>, INotificationHandler<ChangeQuestionNotification>, INotificationHandler<GetQuestionNotification>
+    public class QuestionNotificationHandlers: INotificationHandler<QuestionDto>, INotificationHandler<ChangeQuestionNotification>, INotificationHandler<GetQuestionNotification>
     {
-        public Task Handle(QuestionResponce notification, CancellationToken cancellationToken)
+        public Task Handle(QuestionDto notification, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }

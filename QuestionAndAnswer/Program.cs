@@ -10,19 +10,23 @@ using Microsoft.Extensions.Logging;
 namespace QuestionAndAnswer
 {
     // TODO list:
-    // 1. Версионность (Nick Chapsas)
-    // 2. Paging, Filtering
-    // 3. Logging EF queries
+    // 8. Automaper
+    // 9. Polly
+    // 10. Docker
+    
     // 4. Async+ await + Task
     // 5. OIDC
     // 6. CORS
+    // 7. SSL + HTTPS
     
     
     public class Program
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args)
+                .Build()
+                .Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -11,14 +11,14 @@ using QuestionAndAnswer.Persistence;
 
 namespace QuestionAndAnswer.Application.Answers.Commands
 {
-    public class CreateAnswerCommand: IRequest<AnswerResponce>
+    public class CreateAnswerCommand: IRequest<AnswerDto>
     {
         public int QuestionId { get; set; }
         public string Content { get; set; }
         //public int UserId { get; set; }
         //public string UserName { get; set; }
     }
-    public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, AnswerResponce>
+    public class CreateAnswerCommandHandler : IRequestHandler<CreateAnswerCommand, AnswerDto>
     {
         private readonly IMediator _mediator;
         private readonly ApplicationDbContext _dbContext;
@@ -31,7 +31,7 @@ namespace QuestionAndAnswer.Application.Answers.Commands
             _currentUserService = currentUserService;
         }
         
-        public async Task<AnswerResponce> Handle(CreateAnswerCommand request, CancellationToken cancellationToken)
+        public async Task<AnswerDto> Handle(CreateAnswerCommand request, CancellationToken cancellationToken)
         {
             var answer = new Answer()
             {
@@ -46,7 +46,7 @@ namespace QuestionAndAnswer.Application.Answers.Commands
             var added = await _dbContext.SaveChangesAsync();
             if (added == 1)
             {
-                var result = new AnswerResponce()
+                var result = new AnswerDto()
                 {
                     Id = answer.Id,
                     Content = answer.Content,

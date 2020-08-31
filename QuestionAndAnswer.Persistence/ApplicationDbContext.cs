@@ -1,5 +1,7 @@
 ﻿using System.Collections.Immutable;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Console;
 using QuestionAndAnswer.Data.Entities;
 using QuestionAndAnswer.Persistence.Configurations;
 
@@ -10,6 +12,8 @@ namespace QuestionAndAnswer.Persistence
     
     public class ApplicationDbContext: DbContext
     {
+        private readonly ILoggerFactory _loggerFactory = LoggerFactory.Create(builder => { builder.AddConsole(); });
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options)
         {
         }
@@ -19,6 +23,7 @@ namespace QuestionAndAnswer.Persistence
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            optionsBuilder.UseLoggerFactory(_loggerFactory);
             base.OnConfiguring(optionsBuilder);
         }
 
@@ -28,7 +33,7 @@ namespace QuestionAndAnswer.Persistence
             //BuildAnswer(modelBuilder);
             modelBuilder.ApplyConfiguration(new QuestionConfig());
             modelBuilder.ApplyConfiguration(new AnswerConfig());
-
+            
             DataSeeder.Seed(modelBuilder);
         }
 

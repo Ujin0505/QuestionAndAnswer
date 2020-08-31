@@ -4,8 +4,8 @@ namespace QuestionAndAnswer.Application.Common.Interfaces
 {
     public interface IQuestionMemoryCacheService
     {
-        QuestionResponce Get(int questionId);     
+        QuestionDto Get(int questionId);     
         void Remove(int questionId);     
-        void Set(QuestionResponce questionResponce); 
+        void Set(QuestionDto questionDto); 
     }
 }

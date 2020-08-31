@@ -33,8 +33,8 @@ namespace QuestionAndAnswer.Persistence
                     Title = "Why should I learn TypeScript?",
                     Content =
                         "TypeScript seems to be getting popular so I wondered whether it is worth my time learning it? What benefits does it give over JavaScript?",
-                    UserId = "1",
-                    UserName = "bob.test@test.com",
+                    UserId = "IRCzaPMIuVPgC8ppKt5QhGQ13ZZ4Xlrm@clients",
+                    UserName = "bob@test.com",
                     Created = new DateTime(2019, 5, 18, 14, 32, 0)
                 },
                 new Question()
@@ -43,12 +43,11 @@ namespace QuestionAndAnswer.Persistence
                     Title = "Which state management tool should I use?",
                     Content =
                         "There seem to be a fair few state management tools around for React - React, Unstated, ... Which one should I use?",
-                    UserId = "2",
-                    UserName = "jane.test@test.com",
+                    UserId = "IRCzaPMIuVPgC8ppKt5QhGQ13ZZ4Xlrm@clients",
+                    UserName = "bob@test.com",
                     Created = new DateTime(2019, 5, 18, 14, 48, 0)
                 }
                 );
-
         }
         
         private static void SeedAnswers(ModelBuilder builder)

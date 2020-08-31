@@ -9,7 +9,7 @@ using QuestionAndAnswer.Data.Entities;
 
 namespace QuestionAndAnswer.Application.Models
 {
-    public class QuestionResponce: INotification
+    public class QuestionDto: INotification
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -17,6 +17,6 @@ namespace QuestionAndAnswer.Application.Models
         public string UserName { get; set; }
         public string DateCreated { get; set; }
 
-        public IEnumerable<AnswerResponce> Answers { get; set; }
+        public IEnumerable<AnswerDto> Answers { get; set; }
     }
 }

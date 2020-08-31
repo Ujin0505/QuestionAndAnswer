@@ -14,11 +14,11 @@ using QuestionAndAnswer.Persistence;
 
 namespace QuestionAndAnswer.Application.Questions.Queries
 {
-    public class GetQuestionsQuery: IRequest<IEnumerable<QuestionResponce>>
+    public class GetQuestionsQuery: IRequest<IEnumerable<QuestionDto>>
     {
         public string Search { get; set; }
     }
-    public class GetQuestionsQueryHandler: IRequestHandler<GetQuestionsQuery,IEnumerable<QuestionResponce>>
+    public class GetQuestionsQueryHandler: IRequestHandler<GetQuestionsQuery,IEnumerable<QuestionDto>>
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IDateTimeService _dateTimeService;
@@ -29,7 +29,7 @@ namespace QuestionAndAnswer.Application.Questions.Queries
             _dateTimeService = dateTimeService;
         }
         
-        public async Task<IEnumerable<QuestionResponce>> Handle(GetQuestionsQuery request, CancellationToken cancellationToken)
+        public async Task<IEnumerable<QuestionDto>> Handle(GetQuestionsQuery request, CancellationToken cancellationToken)
         {
             var questions = _dbContext.Questions.Include(q => q.Answers);
             
@@ -37,14 +37,14 @@ namespace QuestionAndAnswer.Application.Questions.Queries
                 ? await questions.AsNoTracking().ToListAsync(cancellationToken)
                 : await questions.Where(q => q.Title.Contains(request.Search)).AsNoTracking().ToListAsync(cancellationToken);
             
-            var response = result.Select(q => new QuestionResponce()
+            var response = result.Select(q => new QuestionDto()
             {
                 Id = q.Id,
                 Title =  q.Title,
                 Content =  q.Content,
                 DateCreated = _dateTimeService.ToResponceFormat(q.Created),
                 UserName = q.UserName,
-                Answers = q.Answers.Select( a =>  new AnswerResponce()
+                Answers = q.Answers.Select( a =>  new AnswerDto()
                 {
                     Id = a.Id,
                     Content =  a.Content,

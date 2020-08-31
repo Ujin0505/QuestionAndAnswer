@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using MediatR;
@@ -40,7 +41,7 @@ namespace QuestionAndAnswer.Controllers
         }
         
         [HttpGet]
-        public async Task<IEnumerable<QuestionResponce>> GetQuestions(string search)
+        public async Task<IEnumerable<QuestionDto>> GetQuestions(string search)
         {
             return await _mediator.Send(new GetQuestionsQuery() {Search = search});
         }

@@ -10,14 +10,14 @@ using QuestionAndAnswer.Persistence;
 
 namespace QuestionAndAnswer.Application.Questions.Commands
 {
-    public class CreateQuestionCommand: IRequest<QuestionResponce>
+    public class CreateQuestionCommand: IRequest<QuestionDto>
     {
         public string Title { get; set; }
         public string Content { get; set; }
         //public int UserId { get; set; }
         //public string UserName { get; set; }
     }
-    public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionCommand, QuestionResponce>
+    public class CreateQuestionCommandHandler : IRequestHandler<CreateQuestionCommand, QuestionDto>
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IMediator _mediator;
@@ -32,7 +32,7 @@ namespace QuestionAndAnswer.Application.Questions.Commands
             _dateTimeService = dateTimeService;
         }
         
-        public async Task<QuestionResponce> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
+        public async Task<QuestionDto> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
         {
             string userName = await _currentUserService.GetName();
             
@@ -50,7 +50,7 @@ namespace QuestionAndAnswer.Application.Questions.Commands
             
             if (added)
             {
-                var result = new QuestionResponce()
+                var result = new QuestionDto()
                 {
                     Id = question.Id,
                     Title = question.Title,

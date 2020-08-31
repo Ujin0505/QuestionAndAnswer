@@ -27,7 +27,7 @@ namespace QuestionAndAnswer.Authorization.Handlers
                 return;
             }
 
-            var questionIdAsObj = _httpContextAccessor.HttpContext.Request.RouteValues["questionId"];
+            var questionIdAsObj = _httpContextAccessor.HttpContext.Request.RouteValues["id"];
             int questionId = Convert.ToInt32(questionIdAsObj);
 
             string userId = context.User.FindFirst(ClaimTypes.NameIdentifier).Value;

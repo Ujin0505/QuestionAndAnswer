@@ -14,17 +14,17 @@ namespace QuestionAndAnswer.Infrastracture.Services
             _memoryCache = memoryCache;
         }
 
-        public QuestionResponce Get(int questionId)
+        public QuestionDto Get(int questionId)
         {
-            QuestionResponce questionResponce = null;
-            _memoryCache.TryGetValue(GetCacheKey(questionId), out questionResponce);
-            return questionResponce;
+            QuestionDto questionDto = null;
+            _memoryCache.TryGetValue(GetCacheKey(questionId), out questionDto);
+            return questionDto;
         }
         
-        public void Set(QuestionResponce questionResponce)
+        public void Set(QuestionDto questionDto)
         {
             var cacheEntryOptions = new MemoryCacheEntryOptions().SetSize(1);     
-            _memoryCache.Set(GetCacheKey(questionResponce.Id), questionResponce, cacheEntryOptions); 
+            _memoryCache.Set(GetCacheKey(questionDto.Id), questionDto, cacheEntryOptions); 
         }
 
         public void Remove(int questionId)
