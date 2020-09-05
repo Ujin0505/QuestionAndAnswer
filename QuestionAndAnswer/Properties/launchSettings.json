@@ -17,7 +17,16 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "QuestionAndAnswer": {
+    "QAndAStaging": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "api",
+      "applicationUrl": "https://localhost:5001;http://localhost:5000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Staging"
+      }
+    },
+    "QAndADevelopment": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "api",
