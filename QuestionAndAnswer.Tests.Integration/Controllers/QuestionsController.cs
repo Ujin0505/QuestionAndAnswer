@@ -36,7 +36,7 @@ namespace QuestionAndAnswer.Tests.Integration.Controllers
         [Fact]
         public async Task GetQuestion_ValidId_ReturnStatusOkWithContent()
         {
-            Auth();
+            await Auth();
             string url = "api/questions/-2"; 
             
             var response = await _client.GetAsync(url);
@@ -50,7 +50,7 @@ namespace QuestionAndAnswer.Tests.Integration.Controllers
         [Fact]
         public async Task GetQuestion_InvalidId_ReturnStatusNotFound()
         {
-            Auth();
+            await Auth();
             string url = "api/questions/-999";
             
             var response = await _client.GetAsync(url);
@@ -62,7 +62,7 @@ namespace QuestionAndAnswer.Tests.Integration.Controllers
         [Fact]
         public async Task DeleteQuestion_ValidId_ReturnStatusNoContent()
         {
-            Auth();
+            await Auth();
             string url = "api/questions/-1";
             
             var response = await _client.DeleteAsync(url);
@@ -73,7 +73,7 @@ namespace QuestionAndAnswer.Tests.Integration.Controllers
         [Fact]
         public async Task CreateQuestion_ValidData_ReturnStatusCreated()
         {
-            Auth();
+            await Auth();
             string url = "api/questions";
             var createCommand = new CreateQuestionCommand()
             {
@@ -91,7 +91,7 @@ namespace QuestionAndAnswer.Tests.Integration.Controllers
         [Fact]
         public async Task UpdateQuestion_ValidData_ReturnStatusContentCreated()
         {
-            Auth();
+            await Auth();
             string url = "api/questions/-2";
             var createCommand = new UpdateQuestionCommand()
             {

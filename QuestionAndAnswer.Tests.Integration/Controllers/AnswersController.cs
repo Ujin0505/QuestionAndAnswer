@@ -36,7 +36,7 @@ namespace QuestionAndAnswer.Tests.Integration.Controllers
         [Fact]
         public async Task CreateAnswer_ValidData_ReturnStatusCreated()
         {
-            Auth();
+            await Auth();
             int questionId = -1;
             string url = $"api/questions/{-1}/answers/";
             
