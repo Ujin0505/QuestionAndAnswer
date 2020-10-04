@@ -12,12 +12,6 @@ using QuestionAndAnswer.Persistence;
 
 namespace QuestionAndAnswer
 {
-    // TODO list:
-    // 8. Automaper
-    // 9. Polly
-    // 10. Docker
-    // 11. Session/Cookie
-    
     public class Program
     {
         public static void Main(string[] args)

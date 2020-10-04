@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using QuestionAndAnswer.Application.Answers.Models;
 using QuestionAndAnswer.Application.Common.Handlers;
@@ -23,12 +24,17 @@ namespace QuestionAndAnswer.Application.Answers.Commands
         private readonly IMediator _mediator;
         private readonly ApplicationDbContext _dbContext;
         private readonly ICurrentUserService _currentUserService;
+        private readonly IMapper _mapper;
 
-        public CreateAnswerCommandHandler(IMediator mediator, ApplicationDbContext dbContext, ICurrentUserService currentUserService)
+        public CreateAnswerCommandHandler(IMediator mediator,
+            ApplicationDbContext dbContext, 
+            ICurrentUserService currentUserService, 
+            IMapper mapper)
         {
             _mediator = mediator;
             _dbContext = dbContext;
             _currentUserService = currentUserService;
+            _mapper = mapper;
         }
         
         public async Task<AnswerDto> Handle(CreateAnswerCommand request, CancellationToken cancellationToken)
@@ -38,23 +44,15 @@ namespace QuestionAndAnswer.Application.Answers.Commands
                 QuestionId =  request.QuestionId,
                 Content = request.Content,
                 UserId =  _currentUserService.UserId,
-                UserName = await _currentUserService.GetName(),
-                Created = DateTime.Now
+                UserName = await _currentUserService.GetName(),  
+                Created = DateTime.UtcNow
             };
             
             _dbContext.Add(answer);
             var added = await _dbContext.SaveChangesAsync();
             if (added == 1)
             {
-                var result = new AnswerDto()
-                {
-                    Id = answer.Id,
-                    Content = answer.Content,
-                    Created = answer.Created.ToLongDateString(),
-                    UserName = answer.UserName,
-                    QuestionId = answer.QuestionId
-                };
-
+                var result = _mapper.Map<AnswerDto>(answer); 
                 await _mediator.Publish(new CreateAnswerNotification() { QuestionId = result.QuestionId}, cancellationToken);
                 return result;
             }

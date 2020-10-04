@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using QuestionAndAnswer.Application.Common.Interfaces;
 using QuestionAndAnswer.Application.Models;
@@ -22,14 +23,14 @@ namespace QuestionAndAnswer.Application.Questions.Commands
         private readonly ApplicationDbContext _dbContext;
         private readonly IMediator _mediator;
         private readonly ICurrentUserService _currentUserService;
-        private readonly IDateTimeService _dateTimeService;
+        private readonly IMapper _mapper;
 
-        public CreateQuestionCommandHandler(ApplicationDbContext dbContext, IMediator mediator, ICurrentUserService currentUserService, IDateTimeService dateTimeService)
+        public CreateQuestionCommandHandler(ApplicationDbContext dbContext, IMediator mediator, ICurrentUserService currentUserService, IMapper mapper)
         {
             _dbContext = dbContext;
             _mediator = mediator;
             _currentUserService = currentUserService;
-            _dateTimeService = dateTimeService;
+            _mapper = mapper;
         }
         
         public async Task<QuestionDto> Handle(CreateQuestionCommand request, CancellationToken cancellationToken)
@@ -42,7 +43,7 @@ namespace QuestionAndAnswer.Application.Questions.Commands
                 Content = request.Content,
                 UserId = _currentUserService.UserId,
                 UserName = userName,
-                Created = _dateTimeService.DateTimeNow
+                Created = DateTime.UtcNow
             };
             
             _dbContext.Add(question);
@@ -50,15 +51,7 @@ namespace QuestionAndAnswer.Application.Questions.Commands
             
             if (added)
             {
-                var result = new QuestionDto()
-                {
-                    Id = question.Id,
-                    Title = question.Title,
-                    Content = question.Content,
-                    DateCreated = question.Created.ToString("yyyy-MM-ddTHH:mm:ss"),
-                    UserName = question.UserName,
-                };
-
+                var result = _mapper.Map<QuestionDto>(question);
                 await _mediator.Publish(result, cancellationToken);
                 
                 return result;

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using QuestionAndAnswer.Application.Answers.Models;
@@ -23,13 +24,13 @@ namespace QuestionAndAnswer.Application.Questions.Queries
     {
         private readonly IMediator _mediator;
         private readonly ApplicationDbContext _dbContext;
-        private readonly IDateTimeService _dateTimeService;
+        private readonly IMapper _mapper;
 
-        public GetQuestionQueryHandler(IMediator mediator, ApplicationDbContext dbContext, IDateTimeService dateTimeService)
+        public GetQuestionQueryHandler(IMediator mediator, ApplicationDbContext dbContext, IMapper mapper)
         {
             _mediator = mediator;
             _dbContext = dbContext;
-            _dateTimeService = dateTimeService;
+            _mapper = mapper;
         }
         
         public async Task<QuestionDto> Handle(GetQuestionQuery request, CancellationToken cancellationToken)
@@ -41,24 +42,8 @@ namespace QuestionAndAnswer.Application.Questions.Queries
             
             if (result == null)
                 return null;
-            
-            var response = new QuestionDto()
-            {
-                Id = result.Id,
-                Title = result.Title,
-                Content = result.Content,
-                UserName = result.UserName,
-                DateCreated = _dateTimeService.ToResponceFormat( result.Created),
-                Answers = result.Answers.Select( a =>  new AnswerDto()
-                {
-                    Id = a.Id,
-                    Content =  a.Content,
-                    Created  = _dateTimeService.ToResponceFormat(a.Created),
-                    QuestionId = a.QuestionId,
-                    UserName = a.UserName
-                })
-            };
 
+            var response = _mapper.Map<QuestionDto>(result);
             await _mediator.Publish(new GetQuestionNotification() {QuestionId = response.Id}, cancellationToken);
             
             return response;

@@ -4,12 +4,14 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using QuestionAndAnswer.Application.Answers.Models;
 using QuestionAndAnswer.Application.Common.Interfaces;
 using QuestionAndAnswer.Application.Models;
+using QuestionAndAnswer.Data.Entities;
 using QuestionAndAnswer.Persistence;
 
 namespace QuestionAndAnswer.Application.Questions.Queries
@@ -21,12 +23,12 @@ namespace QuestionAndAnswer.Application.Questions.Queries
     public class GetQuestionsQueryHandler: IRequestHandler<GetQuestionsQuery,IEnumerable<QuestionDto>>
     {
         private readonly ApplicationDbContext _dbContext;
-        private readonly IDateTimeService _dateTimeService;
+        private readonly IMapper _mapper;
 
-        public GetQuestionsQueryHandler(ApplicationDbContext dbContext, IDateTimeService dateTimeService)
+        public GetQuestionsQueryHandler(ApplicationDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
-            _dateTimeService = dateTimeService;
+            _mapper = mapper;
         }
         
         public async Task<IEnumerable<QuestionDto>> Handle(GetQuestionsQuery request, CancellationToken cancellationToken)
@@ -37,23 +39,7 @@ namespace QuestionAndAnswer.Application.Questions.Queries
                 ? await questions.AsNoTracking().ToListAsync(cancellationToken)
                 : await questions.Where(q => q.Title.Contains(request.Search)).AsNoTracking().ToListAsync(cancellationToken);
             
-            var response = result.Select(q => new QuestionDto()
-            {
-                Id = q.Id,
-                Title =  q.Title,
-                Content =  q.Content,
-                DateCreated = _dateTimeService.ToResponceFormat(q.Created),
-                UserName = q.UserName,
-                Answers = q.Answers.Select( a =>  new AnswerDto()
-                {
-                    Id = a.Id,
-                    Content =  a.Content,
-                    Created  = _dateTimeService.ToResponceFormat(a.Created),
-                    QuestionId = a.QuestionId,
-                    UserName = a.UserName
-                })
-                
-            });
+            var response = _mapper.Map<List<Question>, IEnumerable<QuestionDto>>(result);
             return response;
         }
     }

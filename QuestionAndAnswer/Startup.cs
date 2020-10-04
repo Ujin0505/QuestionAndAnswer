@@ -19,10 +19,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.OpenApi.Models;
 using QuestionAndAnswer.Application.Answers.Mappings;
 using QuestionAndAnswer.Application.Common.Behaviours;
 using QuestionAndAnswer.Application.Common.Interfaces;
+using QuestionAndAnswer.Application.Common.Mappings;
 using QuestionAndAnswer.Application.Questions.Commands;
+using QuestionAndAnswer.Application.Questions.Mappings;
 using QuestionAndAnswer.Application.Questions.Queries;
 using QuestionAndAnswer.Application.Questions.Validators;
 using QuestionAndAnswer.Authorization;
@@ -50,7 +53,7 @@ namespace QuestionAndAnswer
             services.AddHttpClient();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSingleton<ICurrentUserService, CurrentUserService>();
-            services.AddSingleton<IDateTimeService, DateTimeService>();
+            /*services.AddSingleton<IDateTimeService, DateTimeService>();*/
             
             //db
             services.AddEntityFrameworkNpgsql().AddDbContext<ApplicationDbContext>(contextOptions =>
@@ -91,24 +94,33 @@ namespace QuestionAndAnswer
             services.AddScoped<IAuthorizationHandler, AuthorHandler>(); 
             
             //swagger
-            services.AddSwaggerGen(/*setup =>
+            services.AddSwaggerGen(setup =>
             {
-                setup.SwaggerDoc("v1", new Info { Title = "QAndA API", Version = "v1" });
+                setup.SwaggerDoc("v1", new OpenApiInfo { Title = "QuestionAndAnswer API", Version = "v1" });
                 
-                setup.AddSecurityDefinition("Bearer", new ApiKeyScheme()
+                setup.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = "JWT Authorization header using the bearer scheme",
                     Name = "Authorization",
-                    In = "header",
-                    Type = "apiKey"
-                });*/
-
-                /*setup.AddSecurityRequirement(new Dictionary<string, IEnumerable<string>>
-                {
-                    {"Bearer", new string[0]}
+                    In = ParameterLocation.Header,
+                    Type = SecuritySchemeType.ApiKey
                 });
-                
-            }*/);
+
+                setup.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+            });
                 
             // CORS
             services.AddCors(options => options.AddPolicy("CorsPolicy", builder =>
@@ -120,8 +132,15 @@ namespace QuestionAndAnswer
                     .WithOrigins(Configuration["Frontend"]);
             }));
 
-            //automapper
-            //services.AddAutoMapper(typeof(CreateAnswerCommandToDomainModel).Assembly);
+            // Automapper
+            services.AddAutoMapper(
+                config =>
+                {
+                  config.CreateMap<DateTime, string>().ConvertUsing(new DateTimeTypeConverter());  
+                },
+                typeof(AnswerToAnswerDto),
+                typeof(QuestionToQuestionDto));
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
