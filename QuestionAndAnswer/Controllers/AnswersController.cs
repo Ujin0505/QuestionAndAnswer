@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using QuestionAndAnswer.Application.Answers.Commands;
 using QuestionAndAnswer.Application.Answers.Queries;
@@ -19,6 +20,8 @@ namespace QuestionAndAnswer.Controllers
         }
         
         [HttpGet("{questionId}/answers/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> GetAnswer(int id)
         {
             var result = await _mediator.Send(new GetAnswerQuery(id));
@@ -30,6 +33,9 @@ namespace QuestionAndAnswer.Controllers
 
         
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [HttpPost("{questionId}/answers")]
         public async Task<IActionResult> CreateAnswer([FromBody]CreateAnswerCommand command)
         {
