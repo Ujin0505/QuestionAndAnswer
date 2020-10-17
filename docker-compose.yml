@@ -1,0 +1,30 @@
+version: '3'
+
+volumes: 
+    local_postgres_data: {}
+
+services:
+    api:
+        container_name: qanda
+        build: 
+            context: .
+            dockerfile: QuestionAndAnswer/Dockerfile
+        ports:
+            - "5002:80"
+            #- "5003:443"
+        environment: 
+            - ASPNETCORE_ENVIRONMENT=Staging
+        depends_on:
+            - database
+    database:
+        container_name: postgres
+        image: postgres:latest
+        ports: 
+          - "5432"
+        environment:
+            POSTGRES_USERNAME: postgres
+            POSTGRES_PASSWORD: pass
+        volumes:
+            - local_postgres_data:/var/lib/postgresql/data    
+
+    
