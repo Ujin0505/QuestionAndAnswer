@@ -1,12 +1,11 @@
 # Описание QuestionAndAnswer
-Пример веб-апи приложения.
+Серверная часть приложения, представляющее прототип форума
 # Технологии:
 - .NET Core 3.1
 - Entity Framework 3
-- Swagger
-- Automapper
-- Mediatr
 - SignalR
+- Swagger
+- Mediatr
 - Docker
 # Запуск
 ```
